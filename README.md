@@ -4,7 +4,8 @@
 
 QuickFix/n is the most potent and successful library for working with FIX protocol in a .NET environment.<br/>
 However, logging all messages and events may be tricky, because, by default, QuickFix logs all of them to the console.<br/>
-The idea is to substitute ILogFactory with your own one.
+The idea is to substitute ILogFactory with your own one.<br>
+The only requirement is to use some logging provider (such as SeriLog or any other of your choice).
 
 ## Usage
 
