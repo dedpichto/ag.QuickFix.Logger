@@ -71,9 +71,9 @@ Property name | Property type | Description | Default value
 --- | --- | --- | ---
 LogMessages|bool|Specifies whether FIX messages should be logged|true
 LogEvents|bool|Specifies whether FIX events should be logged|true
-PrefixIncomingMessage|string|Specifies incoming FIX message prefix|"\<incoming\>"
-PrefixOutgoingMessage|string|Specifies outgoing FIX message prefix|"\<outgoing\>"
-PrefixEventMessage|string|Specifies FIX event prefix|"\<event\>"
+PrefixIncomingMessage|string|Specifies incoming FIX message prefix|\<incoming\>
+PrefixOutgoingMessage|string|Specifies outgoing FIX message prefix|\<outgoing\>
+PrefixEventMessage|string|Specifies FIX event prefix|\<event\>
 ExcludedMsgTypes|Array of int values specifies message types which should not be logged|int[]|null
 
 ## Log examples
