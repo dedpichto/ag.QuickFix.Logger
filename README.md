@@ -91,10 +91,7 @@ ExcludedMsgTypes|Array of int values specifies message types which should not be
 07/03/2023 14:29:22 [INF] <event> Received logon
 07/03/2023 14:29:22 [INF] <outgoing> 8=FIX.4.49=7035=A34=149=EXECUTOR52=20230307-12:29:22.62856=CLIENT198=0108=3010=095
 07/03/2023 14:29:22 [INF] <event> Responding to logon request
-07/03/2023 14:29:52 [INF] <outgoing> 8=FIX.4.49=5835=034=249=EXECUTOR52=20230307-12:29:52.90256=CLIENT110=058
-07/03/2023 14:29:52 [INF] <incoming> 8=FIX.4.49=5835=034=249=CLIENT152=20230307-12:29:52.90856=EXECUTOR10=064
 07/03/2023 14:30:22 [INF] <incoming> 8=FIX.4.49=14535=D34=349=CLIENT152=20230307-12:30:22.97856=EXECUTOR11=123456_78921=138=100040=354=255=EUR/ILS59=560=20230307-14:29:50.19499=1.03410=077
-07/03/2023 14:30:22 [INF] <outgoing> 8=FIX.4.49=5835=034=349=EXECUTOR52=20230307-12:30:22.99156=CLIENT110=056
 07/03/2023 14:30:40 [INF] <event> Session FIX.4.4:EXECUTOR->CLIENT1 disconnecting: Socket exception (127.0.0.1:55948): An existing connection was forcibly closed by the remote host.
 07/03/2023 14:30:40 [INF] <event> Session reset: ResetOnDisconnect
 ```
