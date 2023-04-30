@@ -5,10 +5,6 @@ VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ag.QuickFix.Logger", "ag.QuickFix.Logger\ag.QuickFix.Logger.csproj", "{29352E48-B453-4ECC-85A5-4D105CF78ACF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examples.Executor", "..\fix\Executor\Examples.Executor.csproj", "{D40EF1CA-CD86-41F3-AFFA-BEFA5C8F59D7}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examples.TradeClient", "..\fix\TradeClient\Examples.TradeClient.csproj", "{D397CFDD-ABAE-486F-AD9F-19BD36328543}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,22 +21,6 @@ Global
 		{29352E48-B453-4ECC-85A5-4D105CF78ACF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{29352E48-B453-4ECC-85A5-4D105CF78ACF}.Release|x64.ActiveCfg = Release|Any CPU
 		{29352E48-B453-4ECC-85A5-4D105CF78ACF}.Release|x64.Build.0 = Release|Any CPU
-		{D40EF1CA-CD86-41F3-AFFA-BEFA5C8F59D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D40EF1CA-CD86-41F3-AFFA-BEFA5C8F59D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D40EF1CA-CD86-41F3-AFFA-BEFA5C8F59D7}.Debug|x64.ActiveCfg = Debug|x64
-		{D40EF1CA-CD86-41F3-AFFA-BEFA5C8F59D7}.Debug|x64.Build.0 = Debug|x64
-		{D40EF1CA-CD86-41F3-AFFA-BEFA5C8F59D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D40EF1CA-CD86-41F3-AFFA-BEFA5C8F59D7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D40EF1CA-CD86-41F3-AFFA-BEFA5C8F59D7}.Release|x64.ActiveCfg = Release|x64
-		{D40EF1CA-CD86-41F3-AFFA-BEFA5C8F59D7}.Release|x64.Build.0 = Release|x64
-		{D397CFDD-ABAE-486F-AD9F-19BD36328543}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D397CFDD-ABAE-486F-AD9F-19BD36328543}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D397CFDD-ABAE-486F-AD9F-19BD36328543}.Debug|x64.ActiveCfg = Debug|x64
-		{D397CFDD-ABAE-486F-AD9F-19BD36328543}.Debug|x64.Build.0 = Debug|x64
-		{D397CFDD-ABAE-486F-AD9F-19BD36328543}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D397CFDD-ABAE-486F-AD9F-19BD36328543}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D397CFDD-ABAE-486F-AD9F-19BD36328543}.Release|x64.ActiveCfg = Release|x64
-		{D397CFDD-ABAE-486F-AD9F-19BD36328543}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
