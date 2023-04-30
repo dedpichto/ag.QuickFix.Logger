@@ -1,21 +1,25 @@
-﻿using ag.QuickFix.Logger.Settings;
+﻿using ag.QuickFix.Logger.Events;
+using ag.QuickFix.Logger.Settings;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using QuickFix;
-using System.Linq;
 
 namespace ag.QuickFix.Logger
 {
     internal class QuickFixLogger : IQuickFixLogger
     {
+        private const char _QF_DELIMITER = '\x01';
         private readonly ILogger<QuickFixLogger> _logger;
+        private readonly IQuickFixEventsRaiser _eventsRaiser;
         private readonly QuickFixLoggerSettings _settings;
         private readonly object _lock = new();
 
         public QuickFixLogger(ILogger<QuickFixLogger> logger,
+            IQuickFixEventsRaiser eventsRaiser,
             IOptions<QuickFixLoggerSettings> options)
         {
             _logger = logger;
+            _eventsRaiser = eventsRaiser;
             _settings = options.Value;
         }
 
@@ -31,6 +35,10 @@ namespace ag.QuickFix.Logger
                 else
                     _logger.LogInformation($"{_settings.PrefixEventMessage} {s}");
             }
+            if (_settings.AllowRaisingForEvents)
+            {
+                _eventsRaiser.OnEvent(this, new QuickFixEventArgs(s));
+            }
         }
         public void OnIncoming(string msg)
         {
@@ -43,6 +51,10 @@ namespace ag.QuickFix.Logger
                     _logger.LogInformation(msg);
                 else
                     _logger.LogInformation($"{_settings.PrefixIncomingMessage} {msg}");
+            }
+            if (_settings.AllowRaisingForIncoming && !isMessageExcluded(msg))
+            {
+                _eventsRaiser.OnIncoming(this, new QuickFixEventArgs(msg));
             }
         }
         public void OnOutgoing(string msg)
@@ -57,20 +69,23 @@ namespace ag.QuickFix.Logger
                 else
                     _logger.LogInformation($"{_settings.PrefixOutgoingMessage} {msg}");
             }
+            if (_settings.AllowRaisingForOutgoing && !isMessageExcluded(msg))
+            {
+                _eventsRaiser.OnOutgoing(this, new QuickFixEventArgs(msg));
+            }
         }
+
         public void Dispose() { }
 
         private bool isMessageExcluded(string msg)
         {
-            var arr = msg.Split('\x01');
-            if (_settings.ExcludedMsgTypes != null && _settings.ExcludedMsgTypes.Any())
+            if (_settings.ExcludedMsgTypes != null)
             {
                 foreach (var tag in _settings.ExcludedMsgTypes)
                 {
-                    if (arr.Any(a => a == $"35={tag}"))
-                    {
-                        return true; ;
-                    }
+                    var pattern = $"{_QF_DELIMITER}35={tag}{_QF_DELIMITER}";
+                    if (msg.Contains(pattern))
+                        return true;
                 }
             }
             return false;

@@ -28,6 +28,19 @@
         /// <summary>
         /// Array of int values specifies message types which should not be logged.
         /// </summary>
-        public int[] ExcludedMsgTypes { get; set; }
+        public string[] ExcludedMsgTypes { get; set; }
+        /// <summary>
+        /// Specifies whether <see cref="QuickFixEventsRaiser.OnEvent"/> should be raised
+        /// </summary>
+        public bool AllowRaisingForEvents { get; set; }
+        /// <summary>
+        /// Specifies whether <see cref="QuickFixEventsRaiser.OnIncoming"/> should be raised
+        /// </summary>
+        public bool AllowRaisingForIncoming { get; set; }
+        /// <summary>
+        /// Specifies whether <see cref="QuickFixEventsRaiser.OnOutgoing"/> should be raised
+        /// </summary>
+        public bool AllowRaisingForOutgoing { get; set; }
+
     }
 }

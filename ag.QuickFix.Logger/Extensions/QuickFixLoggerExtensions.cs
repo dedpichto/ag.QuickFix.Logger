@@ -20,6 +20,7 @@ namespace ag.QuickFix.Logger.Extensions
         {
             services.AddTransient<IQuickFixLogger, QuickFixLogger>();
             services.AddTransient<IQuickFixLoggerFactory, QuickFixLoggerFactory>();
+            services.AddSingleton<IQuickFixEventsRaiser, QuickFixEventsRaiser>();
             return services;
         }
         /// <summary>
@@ -32,6 +33,7 @@ namespace ag.QuickFix.Logger.Extensions
         {
             services.AddTransient<IQuickFixLogger, QuickFixLogger>();
             services.AddTransient<IQuickFixLoggerFactory, QuickFixLoggerFactory>();
+            services.AddSingleton<IQuickFixEventsRaiser, QuickFixEventsRaiser>();
             if (configurationSection == null)
                 return services;
             services.Configure<QuickFixLoggerSettings>(opts =>
@@ -49,7 +51,13 @@ namespace ag.QuickFix.Logger.Extensions
                 if (children.Any(c => c.Key == nameof(opts.PrefixEventMessage)))
                     opts.PrefixEventMessage = configurationSection.GetValue<string>(nameof(opts.PrefixEventMessage));
                 if (children.Any(c => c.Key == nameof(opts.ExcludedMsgTypes)))
-                    opts.ExcludedMsgTypes = configurationSection.GetSection(nameof(opts.ExcludedMsgTypes)).Get<int[]>();
+                    opts.ExcludedMsgTypes = configurationSection.GetSection(nameof(opts.ExcludedMsgTypes)).Get<string[]>();
+                if(children.Any(c=>c.Key==nameof(opts.AllowRaisingForEvents)))
+                    opts.AllowRaisingForEvents=configurationSection.GetValue<bool>(nameof(opts.AllowRaisingForEvents));
+                if (children.Any(c => c.Key == nameof(opts.AllowRaisingForIncoming)))
+                    opts.AllowRaisingForIncoming = configurationSection.GetValue<bool>(nameof(opts.AllowRaisingForIncoming));
+                if (children.Any(c => c.Key == nameof(opts.AllowRaisingForOutgoing)))
+                    opts.AllowRaisingForOutgoing = configurationSection.GetValue<bool>(nameof(opts.AllowRaisingForOutgoing));
             });
             return services;
         }
@@ -63,6 +71,7 @@ namespace ag.QuickFix.Logger.Extensions
         {
             services.AddTransient<IQuickFixLogger, QuickFixLogger>();
             services.AddTransient<IQuickFixLoggerFactory, QuickFixLoggerFactory>();
+            services.AddSingleton<IQuickFixEventsRaiser, QuickFixEventsRaiser>();
             if (configureOptions == null)
                 return services;
             services.Configure(configureOptions);
