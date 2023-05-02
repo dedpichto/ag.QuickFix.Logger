@@ -37,7 +37,10 @@ namespace ag.QuickFix.Logger
             }
             if (_settings.AllowRaisingForEvents)
             {
-                _eventsRaiser.OnEvent(this, new QuickFixEventArgs(s));
+                if (_settings.AllowAsyncEvents)
+                    _ = _eventsRaiser.OnEventAsync(this, new QuickFixEventArgs(s));
+                else
+                    _eventsRaiser.OnEvent(this, new QuickFixEventArgs(s));
             }
         }
         public void OnIncoming(string msg)
@@ -54,7 +57,10 @@ namespace ag.QuickFix.Logger
             }
             if (_settings.AllowRaisingForIncoming && !isMessageExcluded(msg))
             {
-                _eventsRaiser.OnIncoming(this, new QuickFixEventArgs(msg));
+                if (_settings.AllowAsyncEvents)
+                    _ = _eventsRaiser.OnIncomingAsync(this, new QuickFixEventArgs(msg));
+                else
+                    _eventsRaiser.OnIncoming(this, new QuickFixEventArgs(msg));
             }
         }
         public void OnOutgoing(string msg)
@@ -71,7 +77,10 @@ namespace ag.QuickFix.Logger
             }
             if (_settings.AllowRaisingForOutgoing && !isMessageExcluded(msg))
             {
-                _eventsRaiser.OnOutgoing(this, new QuickFixEventArgs(msg));
+                if (_settings.AllowAsyncEvents)
+                    _ = _eventsRaiser.OnOutgoingAsync(this, new QuickFixEventArgs(msg));
+                else
+                    _eventsRaiser.OnOutgoing(this, new QuickFixEventArgs(msg));
             }
         }
 

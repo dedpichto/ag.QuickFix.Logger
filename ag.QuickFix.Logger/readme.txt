@@ -64,3 +64,13 @@ var initiator = new QuickFix.Transport.SocketInitiator(_tradeClientApp, storeFac
 _eventsRaiser.OnQuickFixEvent += (sender, e) => Console.WriteLine($"Event==>{e.MessageString}");
 _eventsRaiser.OnQuickFixIncoming += (sender, e) => Console.WriteLine($"Incoming==>{e.MessageString}");
 _eventsRaiser.OnQuickFixOutgoing += (sender, e) => Console.WriteLine($"Outgoing==>{e.MessageString}");
+***************************************************************************************************
+
+// you may also use asyn event, setting AllowAsyncEvents property of QuickFixLoggerSettings to true
+_eventsRaiser.OnQuickFixEventAsync += _eventsRaiser_OnQuickFixEventAsync;
+_eventsRaiser.OnQuickFixIncomingAsync += _eventsRaiser_OnQuickFixIncomingAsync;
+_eventsRaiser.OnQuickFixOutgoingAsync += _eventsRaiser_OnQuickFixOutgoingAsync;
+
+private async Task _eventsRaiser_OnQuickFixOutgoingAsync(object sender, QuickFixEventArgs e) => await Task.Run(() => { Console.WriteLine($"Outgoing==>{e.MessageString}"); });
+private async Task _eventsRaiser_OnQuickFixIncomingAsync(object sender, QuickFixEventArgs e) => await Task.Run(() => { Console.WriteLine($"Incoming==>{e.MessageString}"); });
+private async Task _eventsRaiser_OnQuickFixEventAsync(object sender, QuickFixEventArgs e) => await Task.Run(() => { Console.WriteLine($"Event==>{e.MessageString}"); });

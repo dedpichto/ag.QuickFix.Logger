@@ -30,6 +30,10 @@
         /// </summary>
         public string[] ExcludedMsgTypes { get; set; }
         /// <summary>
+        /// Specifies whether events should be raise asycronously
+        /// </summary>
+        public bool AllowAsyncEvents { get; set; }
+        /// <summary>
         /// Specifies whether <see cref="QuickFixEventsRaiser.OnEvent"/> should be raised
         /// </summary>
         public bool AllowRaisingForEvents { get; set; }
