@@ -18,7 +18,7 @@ The only requirement is to use some logging provider (such as SeriLog or any oth
     "PrefixOutgoingMessage": "FixOutgoing",
     "PrefixEvent": "FixEvent",
     "ExcludedMsgTypes": [
-      0
+      "0"
     ]
   }
 }
@@ -42,7 +42,7 @@ services.AddQuickFixLogger(configuration.GetSection(nameof(QuickFixLoggerSetting
 services.AddQuickFixLogger(opts =>
 {
     opts.LogEvents = false;
-    opts.ExcludedMsgTypes = new[] { 0 };
+    opts.ExcludedMsgTypes = new[] { "0" };
 });
 ```
 
@@ -57,12 +57,45 @@ public MyClass(IQuickFixLoggerFactory quickFixLoggerFactory)
 }
 ```
 
-5. Substitute ILogFactory with IQuickFixLoggerFactory
+5. Inject IQuickFixEventsRaiser if you are going to use events
+
+```csharp
+private readonly IQuickFixLoggerFactory _quickFixLoggerFactory;
+private readonly IQuickFixEventsRaiser _eventsRaiser;
+
+public MyClass(IQuickFixLoggerFactory quickFixLoggerFactory, IQuickFixEventsRaiser eventsRaiser)
+{
+    _quickFixLoggerFactory = quickFixLoggerFactory;
+    _eventsRaiser = eventsRaiser;
+}
+```
+
+6. Substitute ILogFactory with IQuickFixLoggerFactory
 
 ```csharp
 var settings = new QuickFix.SessionSettings(file);
 var storeFactory = new QuickFix.FileStoreFactory(settings);
 var initiator = new QuickFix.Transport.SocketInitiator(_tradeClientApp, storeFactory, settings, _quickFixLoggerFactory);
+```
+
+7. Subscribe to evnts, if you chose to use any
+
+```csharp
+_eventsRaiser.OnQuickFixEvent += (sender, e) => Console.WriteLine($"Event==>{e.MessageString}");
+_eventsRaiser.OnQuickFixIncoming += (sender, e) => Console.WriteLine($"Incoming==>{e.MessageString}");
+_eventsRaiser.OnQuickFixOutgoing += (sender, e) => Console.WriteLine($"Outgoing==>{e.MessageString}");
+```
+
+8. You may also use asyn event, setting AllowAsyncEvents property of QuickFixLoggerSettings to true
+
+```csharp
+_eventsRaiser.OnQuickFixEventAsync += _eventsRaiser_OnQuickFixEventAsync;
+_eventsRaiser.OnQuickFixIncomingAsync += _eventsRaiser_OnQuickFixIncomingAsync;
+_eventsRaiser.OnQuickFixOutgoingAsync += _eventsRaiser_OnQuickFixOutgoingAsync;
+
+private async Task _eventsRaiser_OnQuickFixOutgoingAsync(object sender, QuickFixEventArgs e) => await Task.Run(() => { Console.WriteLine($"Outgoing==>{e.MessageString}"); });
+private async Task _eventsRaiser_OnQuickFixIncomingAsync(object sender, QuickFixEventArgs e) => await Task.Run(() => { Console.WriteLine($"Incoming==>{e.MessageString}"); });
+private async Task _eventsRaiser_OnQuickFixEventAsync(object sender, QuickFixEventArgs e) => await Task.Run(() => { Console.WriteLine($"Event==>{e.MessageString}"); });
 ```
 
 ## Settings
@@ -74,13 +107,17 @@ LogEvents|bool|Specifies whether FIX events should be logged|true
 PrefixIncomingMessage|string|Specifies incoming FIX message prefix|\<incoming\>
 PrefixOutgoingMessage|string|Specifies outgoing FIX message prefix|\<outgoing\>
 PrefixEventMessage|string|Specifies FIX event prefix|\<event\>
-ExcludedMsgTypes|Array of int values specifies message types which should not be logged|int[]|null
+ExcludedMsgTypes|Array of int values specifies message types which should not be logged|string[]|null
+AllowAsyncEvents|bool|Specifies whether events should be raise asycronously|false
+AllowRaisingForEvents|bool|Specifies whether OnEvent or OnEventAsync should be raised|false
+AllowRaisingForIncoming|bool|Specifies whether OnIncoming or OnIncomingAsync should be raised|false
+AllowRaisingForOutgoing|bool|Specifies whether OnOutgoing or OnOutgoingAsync should be raised|false
 
 ## Log examples
 
-#### Using default settings, while Heartbit (0) message is added to ExcludedMsgTypes
+### Using default settings and Heartbit (0) message added to ExcludedMsgTypes
 
-```
+```txt
 07/03/2023 14:29:10 [INF] <event> Created session
 07/03/2023 14:29:22 [INF] <event> FIX.4.4:EXECUTOR->CLIENT1 Socket Reader 20974680 accepting session FIX.4.4:EXECUTOR->CLIENT1 from 127.0.0.1:55948
 07/03/2023 14:29:22 [INF] <event> FIX.4.4:EXECUTOR->CLIENT1 Acceptor heartbeat set to 0 seconds
@@ -96,8 +133,9 @@ ExcludedMsgTypes|Array of int values specifies message types which should not be
 07/03/2023 14:30:40 [INF] <event> Session reset: ResetOnDisconnect
 ```
 
-#### Using custom prefixes and Heartbit (0) message added to ExcludedMsgTypes
-```
+### Using custom prefixes and Heartbit (0) message added to ExcludedMsgTypes
+
+```txt
 07/03/2023 14:29:22 [INF] FixEvent Created session
 07/03/2023 14:29:22 [INF] FixEvent Connecting to 127.0.0.1 on port 5001
 07/03/2023 14:29:22 [INF] FixEvent Connection succeeded
