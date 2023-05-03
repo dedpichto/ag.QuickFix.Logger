@@ -29,7 +29,7 @@ services.AddQuickFixLogger(configuration.GetSection(nameof(QuickFixLoggerSetting
 services.AddQuickFixLogger(opts =>
 {
     opts.LogEvents = false;
-    opts.ExcludedMsgTypes = new[] { 0 };
+    opts.ExcludedMsgTypes = new[] { "0" };
 });
 
 ***************************************************************************************************

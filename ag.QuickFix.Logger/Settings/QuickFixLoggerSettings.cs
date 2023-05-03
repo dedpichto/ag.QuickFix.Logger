@@ -34,15 +34,15 @@
         /// </summary>
         public bool AllowAsyncEvents { get; set; }
         /// <summary>
-        /// Specifies whether <see cref="QuickFixEventsRaiser.OnEvent"/> should be raised
+        /// Specifies whether <see cref="QuickFixEventsRaiser.OnEvent"/> or <see cref="QuickFixEventsRaiser.OnEventAsync"/> should be raised
         /// </summary>
         public bool AllowRaisingForEvents { get; set; }
         /// <summary>
-        /// Specifies whether <see cref="QuickFixEventsRaiser.OnIncoming"/> should be raised
+        /// Specifies whether <see cref="QuickFixEventsRaiser.OnIncoming"/> or <see cref="QuickFixEventsRaiser.OnIncomingAsync"/> should be raised
         /// </summary>
         public bool AllowRaisingForIncoming { get; set; }
         /// <summary>
-        /// Specifies whether <see cref="QuickFixEventsRaiser.OnOutgoing"/> should be raised
+        /// Specifies whether <see cref="QuickFixEventsRaiser.OnOutgoing"/> or <see cref="QuickFixEventsRaiser.OnOutgoingAsync"/> should be raised
         /// </summary>
         public bool AllowRaisingForOutgoing { get; set; }
 
